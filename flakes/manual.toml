@@ -56,6 +56,11 @@ repo = "nyx"
 
 [[sources]]
 type = "github"
+owner = "DeterminateSystems"
+repo = "fh"
+
+[[sources]]
+type = "github"
 owner = "dgollings"
 repo = "nix-atlas"
 
