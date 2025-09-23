@@ -69,6 +69,10 @@ type = "github"
 owner = "DeterminateSystems"
 repo = "nix-src"
 
+type = "github"
+owner = "DeterminateSystems"
+repo = "nix-installer"
+
 [[sources]]
 type = "github"
 owner = "dgollings"
