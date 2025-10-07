@@ -1,5 +1,15 @@
 name: "Test GH CLI without explicit token"
 
+# This workflow tests that gh CLI commands work without explicitly passing GITHUB_TOKEN.
+# This verifies the changes made in PR #1040 are correct.
+#
+# Context: The gh CLI automatically reads GITHUB_TOKEN from the environment,
+# and GitHub Actions automatically provides GITHUB_TOKEN to all steps.
+# Therefore, explicitly setting "env: GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}"
+# is redundant and can be removed.
+#
+# This test can be manually triggered to verify the behavior.
+
 on:
   workflow_dispatch:
 
