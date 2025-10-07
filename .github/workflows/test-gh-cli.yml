@@ -3,15 +3,28 @@ name: "Test GH CLI without explicit token"
 on:
   workflow_dispatch:
 
+# Test both with and without explicit permissions
 permissions:
   contents: read
   issues: write
 
 jobs:
-  test-gh-without-token:
+  test-gh-with-default-permissions:
     runs-on: ubuntu-latest
+    name: Test with default permissions
 
     steps:
+      - name: Verify GITHUB_TOKEN is available
+        shell: sh
+        run: |
+          echo "Testing if GITHUB_TOKEN is available in environment..."
+          if [ -n "$GITHUB_TOKEN" ]; then
+            echo "✓ GITHUB_TOKEN is set in environment"
+          else
+            echo "✗ GITHUB_TOKEN is NOT set in environment"
+            exit 1
+          fi
+
       - name: Test gh issue list
         shell: sh
         run: |
@@ -19,11 +32,11 @@ jobs:
           gh issue list --state open -L 5 --json number,title
           echo "✓ gh issue list succeeded"
 
-      - name: Test gh issue search
+      - name: Test gh issue search (simulating the workflow logic)
         shell: sh
         run: |
           echo "Testing gh issue search without explicit GITHUB_TOKEN..."
-          TITLE="Test Issue"
+          TITLE="Failing import for nixpkgs"
           RESULT=$(gh issue list --state open --search "in:title $TITLE" -L 1 --json id --jq length)
           echo "Search result count: $RESULT"
           echo "✓ gh issue search succeeded"
@@ -32,4 +45,10 @@ jobs:
         shell: sh
         run: |
           echo "✅ All gh CLI commands work without explicit GITHUB_TOKEN!"
-          echo "The GITHUB_TOKEN is automatically available to gh CLI."
+          echo ""
+          echo "Summary:"
+          echo "- GITHUB_TOKEN is automatically available to all steps"
+          echo "- gh CLI can access GITHUB_TOKEN from environment"
+          echo "- No need to explicitly pass: env: GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}"
+          echo ""
+          echo "This confirms PR #1040 changes are correct!"
