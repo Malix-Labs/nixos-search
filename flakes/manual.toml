@@ -372,6 +372,11 @@ repo = "system-manager"
 
 [[sources]]
 type = "github"
+owner = "numtide"
+repo = "treefmt"
+
+[[sources]]
+type = "github"
 owner = "PaddiM8"
 repo = "kalker"
 
