@@ -342,6 +342,11 @@ repo = "patchelf"
 
 [[sources]]
 type = "github"
+owner = "NixOS"
+repo = "templates"
+
+[[sources]]
+type = "github"
 owner = "numtide"
 repo = "flake-utils"
 
