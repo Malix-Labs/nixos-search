@@ -337,6 +337,11 @@ repo = "nixos-hardware"
 
 [[sources]]
 type = "github"
+owner = "NixOS"
+repo = "patchelf"
+
+[[sources]]
+type = "github"
 owner = "numtide"
 repo = "flake-utils"
 
