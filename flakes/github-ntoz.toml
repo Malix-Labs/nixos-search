@@ -110,6 +110,11 @@ repo = "mcp-nixos"
 
 [[sources]]
 type = "github"
+owner = "vorburger"
+repo = "bazel-nix"
+
+[[sources]]
+type = "github"
 owner = "Wazzaps"
 repo = "fingerpaint"
 
@@ -117,11 +122,6 @@ repo = "fingerpaint"
 type = "github"
 owner = "YaLTeR"
 repo = "niri"
-
-[[sources]]
-type = "github"
-owner = "vorburger"
-repo = "bazel-nix"
 
 [[sources]]
 type = "github"
