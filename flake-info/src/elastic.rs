@@ -58,6 +58,24 @@ lazy_static! {
                         "git_ref": {
                             "type": "keyword"
                         },
+                        "ref": {
+                            "type": "keyword"
+                        },
+                        "rev": {
+                            "type": "keyword"
+                        },
+                        "dir": {
+                            "type": "keyword"
+                        },
+                        "narHash": {
+                            "type": "keyword"
+                        },
+                        "revCount": {
+                            "type": "long"
+                        },
+                        "lastModified": {
+                            "type": "long"
+                        },
                         "url": {
                             "type": "keyword"
                         },

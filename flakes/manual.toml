@@ -4,6 +4,11 @@
 type = "git"
 url = "git+https://codeberg.org/alch_emi/embers-nix-packages.git?ref=main"
 
+# missing field 'name'
+#[[sources]]
+#type = "git"
+#url = "git+https://github.com/hannesgith/neohtop?ref=nixify"
+
 [[sources]]
 type = "git"
 url = "git+https://codeberg.org/wolfangaukang/python-trovo?ref=main"
@@ -12,27 +17,6 @@ url = "git+https://codeberg.org/wolfangaukang/python-trovo?ref=main"
 #[[sources]]
 #type = "git"
 #url = "git+https://codeberg.org/wolfangaukang/multifirefox?ref=main"
-
-[[sources]]
-type = "git"
-url = "git+https://github.com/hannesgith/rquickshare?ref=flake"
-
-# missing field 'name'
-#[[sources]]
-#type = "git"
-#url = "git+https://github.com/hannesgith/neohtop?ref=nixify"
-
-[[sources]]
-type = "git"
-url = "git+https://github.com/raboof/dmake?ref=nix"
-
-[[sources]]
-type = "git"
-url = "git+https://github.com/raboof/octopin?ref=nix"
-
-[[sources]]
-type = "git"
-url = "git+https://github.com/TamtamHero/fw-fanctrl?ref=packaging/nix"
 
 [[sources]]
 type = "github"
@@ -118,6 +102,12 @@ repo = "nix-flatpak"
 type = "github"
 owner = "gytis-ivaskevicius"
 repo = "flake-utils-plus"
+
+[[sources]]
+type = "github"
+owner = "hannesgith"
+repo = "rquickshare"
+ref = "flake"
 
 [[sources]]
 type = "github"
@@ -322,6 +312,18 @@ repo = "uv2nix"
 
 [[sources]]
 type = "github"
+owner = "raboof"
+repo = "dmake"
+ref = "nix"
+
+[[sources]]
+type = "github"
+owner = "raboof"
+repo = "octopin"
+ref = "nix"
+
+[[sources]]
+type = "github"
 owner = "ryantm"
 repo = "agenix"
 
@@ -359,6 +361,12 @@ repo = "Solaar-Flake"
 type = "github"
 owner = "synalice"
 repo = "kconfq"
+
+[[sources]]
+type = "github"
+owner = "TamtamHero"
+repo = "fw-fanctrl"
+ref = "packaging/nix"
 
 [[sources]]
 type = "github"

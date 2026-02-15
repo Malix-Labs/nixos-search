@@ -225,11 +225,14 @@ async fn run_command(
                 Source::Github {
                     owner: s.next().expect("github owner").to_string(),
                     repo: s.next().expect("github repo").to_string(),
-                    git_ref: None,
                     description: None,
+                    attrs: Default::default(),
                 }
             } else {
-                Source::Git { url: flake }
+                Source::Git {
+                    url: flake,
+                    attrs: Default::default(),
+                }
             };
             let (info, exports) =
                 flake_info::process_flake(&source, &kind, temp_store, extra, false)
@@ -290,7 +293,14 @@ async fn run_command(
 
             Ok((
                 Box::new(move || {
-                    flake_info::process_nixpkgs(&Source::Git { url: source }, &kind, &attribute)
+                    flake_info::process_nixpkgs(
+                        &Source::Git {
+                            url: source,
+                            attrs: Default::default(),
+                        },
+                        &kind,
+                        &attribute,
+                    )
                         .map_err(FlakeInfoError::Nixpkgs)
                 }),
                 ident,
