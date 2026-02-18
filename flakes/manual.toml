@@ -41,6 +41,11 @@ repo = "L5P-Keyboard-RGB"
 
 [[sources]]
 type = "github"
+owner = "abathur"
+repo = "resholve"
+
+[[sources]]
+type = "github"
 owner = "anpandey"
 repo = "numen-nix"
 
@@ -141,8 +146,18 @@ repo = "hyprland"
 
 [[sources]]
 type = "github"
+owner = "Hythera"
+repo = "nix-waterfox"
+
+[[sources]]
+type = "github"
 owner = "Infinidoge"
 repo = "nix-minecraft"
+
+[[sources]]
+type = "github"
+owner = "in-a-dil-emma"
+repo = "declarative-flatpak"
 
 [[sources]]
 type = "github"
