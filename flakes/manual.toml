@@ -376,6 +376,11 @@ repo = "nix-pandoc"
 
 [[sources]]
 type = "github"
+owner = "serokell"
+repo = "nix-templates"
+
+[[sources]]
+type = "github"
 owner = "snowfallorg"
 repo = "drift"
 
