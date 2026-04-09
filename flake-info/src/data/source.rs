@@ -106,8 +106,12 @@ impl Source {
                 };
                 // Append ?ref=... if a ref was specified separately and the URL
                 // does not already carry one.
+                let has_ref_param = base
+                    .split_once('?')
+                    .map(|(_, query)| query.split('&').any(|p| p == "ref" || p.starts_with("ref=")))
+                    .unwrap_or(false);
                 match git_ref {
-                    Some(r) if !base.contains("?ref=") => format!("{}?ref={}", base, r),
+                    Some(r) if !has_ref_param => format!("{}?ref={}", base, r),
                     _ => base,
                 }
             }
