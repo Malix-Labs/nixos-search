@@ -1,5 +1,4 @@
 use anyhow::Result;
-use log::warn;
 use serde::{Deserialize, Serialize};
 use std::{
     ffi::OsStr,
@@ -37,11 +36,6 @@ pub enum Source {
         url: String,
     },
     Nixpkgs(Nixpkgs),
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-struct TomlDocument {
-    sources: Vec<Source>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -123,13 +117,13 @@ impl Source {
         file.read_to_string(&mut buf)?;
 
         if path.extension() == Some(OsStr::new("toml")) {
-            warn!(
-                "TOML flake lists are deprecated. Please use a nix flake registry JSON file instead: {}",
-                path.display()
-            );
-            let document: TomlDocument = toml::from_str(&buf)
-                .map_err(|err| io::Error::new(io::ErrorKind::InvalidData, err))?;
-            Ok(document.sources)
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                format!(
+                    "TOML flake lists are no longer supported. Please use a Nix flake registry JSON file instead: {}",
+                    path.display()
+                ),
+            ));
         } else {
             if let Ok(registry) = serde_json::from_str::<RegistryDocument>(&buf) {
                 registry.into_sources()
@@ -330,5 +324,20 @@ mod tests {
             }]
         );
         fs::remove_file(path).unwrap();
+    }
+
+    #[test]
+    fn rejects_toml_inputs() {
+        let toml = r#"
+[[sources]]
+type = "git"
+url = "git+https://example.invalid/repo?ref=main"
+"#;
+        let path = write_temp("toml", toml);
+        let toml_path = path.with_extension("toml");
+        fs::rename(&path, &toml_path).unwrap();
+        let err = Source::read_sources_file(&toml_path).unwrap_err();
+        assert_eq!(err.kind(), io::ErrorKind::InvalidInput);
+        fs::remove_file(toml_path).unwrap();
     }
 }

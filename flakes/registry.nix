@@ -1,10 +1,10 @@
 { pkgs }:
 let
   lib = pkgs.lib;
-  manual = builtins.fromTOML (builtins.readFile ./manual.toml);
   registryPath = ./flake-registry.json;
   registry =
-    if builtins.pathExists registryPath then builtins.fromJSON (builtins.readFile registryPath) else null;
+    if builtins.pathExists registryPath then builtins.fromJSON (builtins.readFile registryPath) else
+      throw "flakes/flake-registry.json is missing. Please provide a nix registry file.";
 
   allowedChars = lib.stringToCharacters "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-";
 
@@ -87,13 +87,8 @@ let
     in
     if lib.hasPrefix "git+" baseUrl || to.type == "git" then "git+" + (lib.removePrefix "git+" baseUrl) else baseUrl;
 
-  manualEntries = map (source: {
-    id = registryId source;
-    ref = flakeRef source;
-  }) manual.sources;
-
   registryEntriesFromFile =
-    if registry != null && registry ? flakes then
+    if registry ? flakes then
       map (
         entry: {
           id =
@@ -102,14 +97,14 @@ let
         }
       ) registry.flakes
     else
-      [ ];
+      throw "flakes/flake-registry.json does not contain a 'flakes' array.";
 
   combinedEntries =
     lib.attrValues (
       lib.foldl'
         (acc: entry: acc // { ${entry.id} = entry; })
         { }
-        (manualEntries ++ registryEntriesFromFile)
+        registryEntriesFromFile
     );
 in
 pkgs.runCommand "flake-registry.json" { nativeBuildInputs = [ pkgs.nix ]; } ''

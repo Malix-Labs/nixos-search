@@ -97,8 +97,6 @@ To add your own flakes to the search index edit [./flakes/flake-registry.json](.
 nix registry add --registry ./flakes/flake-registry.json <id> <flake ref>
 ```
 
-Legacy [./flakes/manual.toml](./flakes/manual.toml) is kept for compatibility and can be converted with `nix build .#flake-registry`, which replays every entry through `nix registry add`.
-
 Possible types are `github`, `gitlab`, `sourcehut`, and `git` (which is the fallback for any kind of git repository but requires to set a revision key manually as of now).
 
 To test whether your flake is compatible with nix flake-info you can try running `flake-info` against it
