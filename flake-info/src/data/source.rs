@@ -1,7 +1,6 @@
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use std::{
-    ffi::OsStr,
     fs::File,
     io::{self, Read},
     path::Path,
@@ -38,9 +37,73 @@ pub enum Source {
     Nixpkgs(Nixpkgs),
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-struct TomlDocument {
-    sources: Vec<Source>,
+/// Nix registry document format (https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-registry.html#registry-format)
+#[derive(Debug, Deserialize)]
+struct RegistryDocument {
+    flakes: Vec<RegistryEntry>,
+}
+
+#[derive(Debug, Deserialize)]
+struct RegistryEntry {
+    to: RegistryTo,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(tag = "type", rename_all = "lowercase")]
+enum RegistryTo {
+    Github {
+        owner: String,
+        repo: String,
+        #[serde(rename = "ref")]
+        git_ref: Option<String>,
+    },
+    Gitlab {
+        owner: String,
+        repo: String,
+        #[serde(rename = "ref")]
+        git_ref: Option<String>,
+    },
+    Sourcehut {
+        owner: String,
+        repo: String,
+        #[serde(rename = "ref")]
+        git_ref: Option<String>,
+    },
+    Git {
+        url: String,
+        #[serde(rename = "ref")]
+        git_ref: Option<String>,
+    },
+}
+
+impl From<RegistryTo> for Source {
+    fn from(to: RegistryTo) -> Self {
+        match to {
+            RegistryTo::Github { owner, repo, git_ref } => Source::Github {
+                owner,
+                repo,
+                git_ref,
+                description: None,
+            },
+            RegistryTo::Gitlab { owner, repo, git_ref } => Source::Gitlab {
+                owner,
+                repo,
+                git_ref,
+            },
+            RegistryTo::Sourcehut { owner, repo, git_ref } => Source::SourceHut {
+                owner,
+                repo,
+                git_ref,
+            },
+            RegistryTo::Git { url, git_ref } => {
+                let url = match git_ref {
+                    Some(r) => format!("git+{}?ref={}", url, r),
+                    None => format!("git+{}", url),
+                };
+                Source::Git { url }
+            }
+        }
+    }
 }
 
 impl Source {
@@ -92,17 +155,20 @@ impl Source {
     }
 
     pub fn read_sources_file(path: &Path) -> io::Result<Vec<Source>> {
-        let mut file = File::open(path)?;
+        if path.extension().and_then(|e| e.to_str()) == Some("toml") {
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "TOML source files are no longer supported; use the nix registry JSON format instead",
+            ));
+        }
 
+        let mut file = File::open(path)?;
         let mut buf = String::new();
         file.read_to_string(&mut buf)?;
 
-        if path.extension() == Some(OsStr::new("toml")) {
-            let document: TomlDocument = toml::from_str(&buf)?;
-            Ok(document.sources)
-        } else {
-            Ok(serde_json::from_str(&buf)?)
-        }
+        let document: RegistryDocument = serde_json::from_str(&buf)
+            .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
+        Ok(document.flakes.into_iter().map(|e| Source::from(e.to)).collect())
     }
 
     pub async fn nixpkgs(channel: String) -> Result<Nixpkgs> {

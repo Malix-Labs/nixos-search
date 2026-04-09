@@ -1,13 +1,13 @@
-[
+{
+  "version": 2,
+  "flakes": [
     {
-        "type": "git",
-        "url": "github:fluffynukeit/adaspark"
+      "from": { "type": "indirect", "id": "adaspark" },
+      "to": { "type": "git", "url": "https://github.com/fluffynukeit/adaspark" }
     },
     {
-        "type": "github",
-        "owner": "ngi-nix",
-        "repo": "offen",
-        "git_ref": "4052febf151d60aa4352fa1960cf3ae088f600aa",
-        "description": "Hier könnte Ihre Werbung stehen"
+      "from": { "type": "indirect", "id": "offen" },
+      "to": { "type": "github", "owner": "ngi-nix", "repo": "offen" }
     }
-]
+  ]
+}

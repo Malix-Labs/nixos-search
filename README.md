@@ -91,9 +91,9 @@ You may need to manually edit `frontend/src/Search.elm` to use the right index.
 
 ## Adding flakes
 
-To add your own flakes to the search index edit [./flakes/manual.toml](./flakes/manual.toml), keeping the alphabetical ordering.
+To add your own flakes to the search index edit [./flakes/flake-registry.json](./flakes/flake-registry.json) following the [nix registry format](https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-registry.html#registry-format), keeping the alphabetical ordering.
 
-Possible types are `github`, `gitlab`, `sourcehut`, and `git` (which is the fallback for any kind of git repository but requires to set a revision key manually as of now).
+Possible `to` types are `github`, `gitlab`, `sourcehut`, and `git` (which is the fallback for any kind of git repository).
 
 To test whether your flake is compatible with nix flake-info you can try running `flake-info` against it
 

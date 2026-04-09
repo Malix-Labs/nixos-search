@@ -82,7 +82,7 @@ enum Command {
     #[structopt(about = "Load and import a group of flakes from a file")]
     Group {
         #[structopt(
-            help = "Points to a TOML or JSON file containing info targets. If file does not end in 'toml' json is assumed"
+            help = "Points to a JSON file in the nix registry format containing info targets"
         )]
         targets: PathBuf,
 
