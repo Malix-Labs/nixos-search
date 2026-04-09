@@ -1,7 +1,6 @@
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use std::{
-    ffi::OsStr,
     fs::File,
     io::{self, Read},
     path::Path,
@@ -38,9 +37,50 @@ pub enum Source {
     Nixpkgs(Nixpkgs),
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-struct TomlDocument {
-    sources: Vec<Source>,
+#[derive(Debug, Deserialize)]
+struct Registry {
+    flakes: Vec<RegistryEntry>,
+}
+
+#[derive(Debug, Deserialize)]
+struct RegistryEntry {
+    to: RegistryFlakeRef,
+}
+
+#[derive(Debug, Deserialize)]
+struct RegistryFlakeRef {
+    #[serde(rename = "type")]
+    flake_type: String,
+    owner: Option<String>,
+    repo: Option<String>,
+    #[serde(rename = "ref")]
+    git_ref: Option<String>,
+    url: Option<String>,
+}
+
+impl RegistryFlakeRef {
+    fn into_source(self) -> Option<Source> {
+        match self.flake_type.as_str() {
+            "github" => Some(Source::Github {
+                owner: self.owner?,
+                repo: self.repo?,
+                git_ref: self.git_ref,
+                description: None,
+            }),
+            "gitlab" => Some(Source::Gitlab {
+                owner: self.owner?,
+                repo: self.repo?,
+                git_ref: self.git_ref,
+            }),
+            "sourcehut" => Some(Source::SourceHut {
+                owner: self.owner?,
+                repo: self.repo?,
+                git_ref: self.git_ref,
+            }),
+            "git" => Some(Source::Git { url: self.url? }),
+            _ => None,
+        }
+    }
 }
 
 impl Source {
@@ -93,16 +133,14 @@ impl Source {
 
     pub fn read_sources_file(path: &Path) -> io::Result<Vec<Source>> {
         let mut file = File::open(path)?;
-
         let mut buf = String::new();
         file.read_to_string(&mut buf)?;
-
-        if path.extension() == Some(OsStr::new("toml")) {
-            let document: TomlDocument = toml::from_str(&buf)?;
-            Ok(document.sources)
-        } else {
-            Ok(serde_json::from_str(&buf)?)
-        }
+        let registry: Registry = serde_json::from_str(&buf)?;
+        Ok(registry
+            .flakes
+            .into_iter()
+            .filter_map(|entry| entry.to.into_source())
+            .collect())
     }
 
     pub async fn nixpkgs(channel: String) -> Result<Nixpkgs> {
