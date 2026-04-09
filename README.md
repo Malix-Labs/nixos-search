@@ -91,9 +91,17 @@ You may need to manually edit `frontend/src/Search.elm` to use the right index.
 
 ## Adding flakes
 
-To add your own flakes to the search index edit [./flakes/manual.toml](./flakes/manual.toml), keeping the alphabetical ordering.
+To add your own flakes to the search index, update [./flakes/flake-registry.json](./flakes/flake-registry.json) using `nix registry add`:
 
-Possible types are `github`, `gitlab`, `sourcehut`, and `git` (which is the fallback for any kind of git repository but requires to set a revision key manually as of now).
+```
+$ nix registry add <shortcut> <flake-ref> --registry ./flakes/flake-registry.json
+```
+
+Example:
+
+```
+$ nix registry add ngi-nix-offen github:ngi-nix/offen --registry ./flakes/flake-registry.json
+```
 
 To test whether your flake is compatible with nix flake-info you can try running `flake-info` against it
 

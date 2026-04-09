@@ -82,7 +82,7 @@ enum Command {
     #[structopt(about = "Load and import a group of flakes from a file")]
     Group {
         #[structopt(
-            help = "Points to a TOML or JSON file containing info targets. If file does not end in 'toml' json is assumed"
+            help = "Points to a JSON file containing info targets (legacy source lists or standard nix flake registry format)"
         )]
         targets: PathBuf,
 
@@ -229,7 +229,10 @@ async fn run_command(
                     description: None,
                 }
             } else {
-                Source::Git { url: flake }
+                Source::Git {
+                    url: flake,
+                    git_ref: None,
+                }
             };
             let (info, exports) =
                 flake_info::process_flake(&source, &kind, temp_store, extra, false)
@@ -290,8 +293,15 @@ async fn run_command(
 
             Ok((
                 Box::new(move || {
-                    flake_info::process_nixpkgs(&Source::Git { url: source }, &kind, &attribute)
-                        .map_err(FlakeInfoError::Nixpkgs)
+                    flake_info::process_nixpkgs(
+                        &Source::Git {
+                            url: source,
+                            git_ref: None,
+                        },
+                        &kind,
+                        &attribute,
+                    )
+                    .map_err(FlakeInfoError::Nixpkgs)
                 }),
                 ident,
             ))

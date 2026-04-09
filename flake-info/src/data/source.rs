@@ -1,7 +1,7 @@
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use std::{
-    ffi::OsStr,
     fs::File,
     io::{self, Read},
     path::Path,
@@ -19,28 +19,42 @@ pub enum Source {
         owner: String,
         repo: String,
         description: Option<String>,
-        #[serde(rename(deserialize = "hash"))]
+        #[serde(default, alias = "hash", alias = "ref", alias = "rev")]
         git_ref: Option<Hash>,
     },
     Gitlab {
         owner: String,
         repo: String,
+        #[serde(default, alias = "hash", alias = "ref", alias = "rev")]
         git_ref: Option<Hash>,
     },
     SourceHut {
         owner: String,
         repo: String,
+        #[serde(default, alias = "hash", alias = "ref", alias = "rev")]
         git_ref: Option<Hash>,
     },
     Git {
         url: String,
+        #[serde(default, alias = "hash", alias = "ref", alias = "rev")]
+        git_ref: Option<Hash>,
     },
     Nixpkgs(Nixpkgs),
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-struct TomlDocument {
+struct LegacyJsonDocument {
     sources: Vec<Source>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+struct RegistryDocument {
+    flakes: Vec<RegistryEntry>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+struct RegistryEntry {
+    to: Value,
 }
 
 impl Source {
@@ -83,7 +97,25 @@ impl Source {
                     .as_ref()
                     .map_or("".to_string(), |f| format!("?ref={}", f))
             ),
-            Source::Git { url } => url.to_string(),
+            Source::Git { url, git_ref } => {
+                let url = if url.starts_with("git+") {
+                    url.to_string()
+                } else if url.starts_with("http://")
+                    || url.starts_with("https://")
+                    || url.starts_with("ssh://")
+                {
+                    format!("git+{url}")
+                } else {
+                    url.to_string()
+                };
+
+                if let Some(git_ref) = git_ref {
+                    let separator = if url.contains('?') { "&" } else { "?" };
+                    format!("{url}{separator}ref={git_ref}")
+                } else {
+                    url
+                }
+            }
             Source::Nixpkgs(Nixpkgs { git_ref, .. }) => format!(
                 "https://api.github.com/repos/NixOS/nixpkgs/tarball/{}",
                 git_ref
@@ -97,12 +129,41 @@ impl Source {
         let mut buf = String::new();
         file.read_to_string(&mut buf)?;
 
-        if path.extension() == Some(OsStr::new("toml")) {
-            let document: TomlDocument = toml::from_str(&buf)?;
-            Ok(document.sources)
-        } else {
-            Ok(serde_json::from_str(&buf)?)
+        if path
+            .extension()
+            .is_some_and(|extension| extension == "toml")
+        {
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "TOML group inputs are deprecated; use a JSON file in standard nix flake registry format",
+            ));
         }
+
+        let value: Value = serde_json::from_str(&buf)?;
+
+        if value.is_array() {
+            return Ok(serde_json::from_value(value)?);
+        }
+
+        if value.get("sources").is_some() {
+            let document: LegacyJsonDocument = serde_json::from_value(value)?;
+            return Ok(document.sources);
+        }
+
+        if value.get("flakes").is_some() {
+            let document: RegistryDocument = serde_json::from_value(value)?;
+            let sources = document
+                .flakes
+                .into_iter()
+                .map(|entry| serde_json::from_value(entry.to))
+                .collect::<std::result::Result<Vec<Source>, _>>()?;
+            return Ok(sources);
+        }
+
+        Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "Unsupported group source JSON format",
+        ))
     }
 
     pub async fn nixpkgs(channel: String) -> Result<Nixpkgs> {
