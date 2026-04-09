@@ -640,7 +640,7 @@
     },
     {
       "from": {
-        "id": "nix-systems-x86-64-darwin",
+        "id": "nix-systems-x86_64-darwin",
         "type": "indirect"
       },
       "to": {
@@ -651,7 +651,7 @@
     },
     {
       "from": {
-        "id": "nix-systems-x86-64-linux",
+        "id": "nix-systems-x86_64-linux",
         "type": "indirect"
       },
       "to": {
