@@ -3,11 +3,11 @@ use flake_info::commands::NixCheckError;
 use flake_info::data::import::Kind;
 use flake_info::data::{self, Export, Source};
 use flake_info::elastic::{self, ElasticsearchError, ExistsStrategy};
-use log::{error, info, warn};
+use log::{info, warn};
 use sha2::Digest;
 use std::io;
 use std::path::PathBuf;
-use structopt::{StructOpt, clap::ArgGroup};
+use structopt::{clap::ArgGroup, StructOpt};
 use thiserror::Error;
 use tokio::fs::File;
 use tokio::io::AsyncWriteExt;
@@ -82,7 +82,7 @@ enum Command {
     #[structopt(about = "Load and import a group of flakes from a file")]
     Group {
         #[structopt(
-            help = "Points to a TOML or JSON file containing info targets. If file does not end in 'toml' json is assumed"
+            help = "Points to a flake registry JSON file (preferred) or legacy TOML list of flakes. TOML support is deprecated."
         )]
         targets: PathBuf,
 

@@ -2,10 +2,10 @@ use std::collections::HashMap;
 
 use clap::arg_enum;
 pub use elasticsearch::http::transport::Transport;
-use elasticsearch::{BulkOperation, Elasticsearch as Client, http::response, indices::*};
+use elasticsearch::{http::response, indices::*, BulkOperation, Elasticsearch as Client};
 use lazy_static::lazy_static;
 use log::{info, warn};
-use serde_json::{Value, json};
+use serde_json::{json, Value};
 use thiserror::Error;
 
 use crate::data::Export;

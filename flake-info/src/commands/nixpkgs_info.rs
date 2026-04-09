@@ -4,9 +4,9 @@ use std::collections::{HashMap, HashSet};
 
 use command_run::{Command, LogTo};
 
-use crate::Source;
-use crate::data::Nixpkgs;
 use crate::data::import::{NixOption, NixpkgsEntry, Package};
+use crate::data::Nixpkgs;
+use crate::Source;
 
 pub fn get_nixpkgs_info(nixpkgs: &Source, attribute: &Option<String>) -> Result<Vec<NixpkgsEntry>> {
     let mut command = Command::new("nix-env");

@@ -1,4 +1,5 @@
 use anyhow::Result;
+use log::warn;
 use serde::{Deserialize, Serialize};
 use std::{
     ffi::OsStr,
@@ -41,6 +42,30 @@ pub enum Source {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 struct TomlDocument {
     sources: Vec<Source>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+struct RegistryDocument {
+    flakes: Vec<RegistryEntry>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+struct RegistryEntry {
+    #[serde(default)]
+    _from: Option<RegistryInput>,
+    to: RegistryInput,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+struct RegistryInput {
+    #[serde(rename = "type")]
+    kind: String,
+    owner: Option<String>,
+    repo: Option<String>,
+    url: Option<String>,
+    #[serde(rename = "ref")]
+    ref_field: Option<String>,
+    rev: Option<String>,
 }
 
 impl Source {
@@ -98,10 +123,20 @@ impl Source {
         file.read_to_string(&mut buf)?;
 
         if path.extension() == Some(OsStr::new("toml")) {
-            let document: TomlDocument = toml::from_str(&buf)?;
+            warn!(
+                "TOML flake lists are deprecated. Please use a nix flake registry JSON file instead: {}",
+                path.display()
+            );
+            let document: TomlDocument = toml::from_str(&buf)
+                .map_err(|err| io::Error::new(io::ErrorKind::InvalidData, err))?;
             Ok(document.sources)
         } else {
-            Ok(serde_json::from_str(&buf)?)
+            if let Ok(registry) = serde_json::from_str::<RegistryDocument>(&buf) {
+                registry.into_sources()
+            } else {
+                serde_json::from_str(&buf)
+                    .map_err(|err| io::Error::new(io::ErrorKind::InvalidData, err))
+            }
         }
     }
 
@@ -150,4 +185,150 @@ pub struct Nixpkgs {
     pub channel: String,
 
     pub git_ref: String,
+}
+
+impl RegistryDocument {
+    fn into_sources(self) -> io::Result<Vec<Source>> {
+        self.flakes
+            .into_iter()
+            .map(|entry| entry.to.into_source())
+            .collect()
+    }
+}
+
+impl RegistryInput {
+    fn into_source(self) -> io::Result<Source> {
+        match self.kind.as_str() {
+            "github" => Ok(Source::Github {
+                owner: self.owner.ok_or_else(|| {
+                    io::Error::new(
+                        io::ErrorKind::InvalidData,
+                        "registry entry missing GitHub owner",
+                    )
+                })?,
+                repo: self.repo.ok_or_else(|| {
+                    io::Error::new(
+                        io::ErrorKind::InvalidData,
+                        "registry entry missing GitHub repo",
+                    )
+                })?,
+                description: None,
+                git_ref: self.ref_field.or(self.rev),
+            }),
+            "gitlab" => Ok(Source::Gitlab {
+                owner: self.owner.ok_or_else(|| {
+                    io::Error::new(
+                        io::ErrorKind::InvalidData,
+                        "registry entry missing GitLab owner",
+                    )
+                })?,
+                repo: self.repo.ok_or_else(|| {
+                    io::Error::new(
+                        io::ErrorKind::InvalidData,
+                        "registry entry missing GitLab repo",
+                    )
+                })?,
+                git_ref: self.ref_field.or(self.rev),
+            }),
+            "sourcehut" => Ok(Source::SourceHut {
+                owner: self.owner.ok_or_else(|| {
+                    io::Error::new(
+                        io::ErrorKind::InvalidData,
+                        "registry entry missing SourceHut owner",
+                    )
+                })?,
+                repo: self.repo.ok_or_else(|| {
+                    io::Error::new(
+                        io::ErrorKind::InvalidData,
+                        "registry entry missing SourceHut repo",
+                    )
+                })?,
+                git_ref: self.ref_field.or(self.rev),
+            }),
+            "git" => {
+                let mut url = self.url.ok_or_else(|| {
+                    io::Error::new(io::ErrorKind::InvalidData, "registry entry missing git url")
+                })?;
+
+                if !url.starts_with("git+") {
+                    url = format!("git+{}", url);
+                }
+
+                if let Some(rev) = self.rev {
+                    let joiner = if url.contains('?') { "&" } else { "?" };
+                    url = format!("{url}{joiner}rev={rev}");
+                } else if let Some(git_ref) = self.ref_field {
+                    let joiner = if url.contains('?') { "&" } else { "?" };
+                    url = format!("{url}{joiner}ref={git_ref}");
+                }
+
+                Ok(Source::Git { url })
+            }
+            other => Err(io::Error::new(
+                io::ErrorKind::InvalidData,
+                format!("unsupported registry entry type '{}'", other),
+            )),
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::{fs, process};
+
+    fn write_temp(name: &str, contents: &str) -> std::path::PathBuf {
+        let path = std::env::temp_dir().join(format!("flake-info-{name}-{}", process::id()));
+        fs::write(&path, contents).unwrap();
+        path
+    }
+
+    #[test]
+    fn reads_registry_format() {
+        let registry = r#"
+{
+  "flakes": [
+    {
+      "from": { "type": "indirect", "id": "example" },
+      "to": { "type": "github", "owner": "demo", "repo": "pkg", "ref": "main" }
+    },
+    {
+      "from": { "type": "indirect", "id": "git-example" },
+      "to": { "type": "git", "url": "https://example.invalid/thing.git", "rev": "abc123" }
+    }
+  ]
+}
+        "#;
+        let path = write_temp("registry", registry);
+        let sources = Source::read_sources_file(&path).unwrap();
+        assert_eq!(
+            sources,
+            vec![
+                Source::Github {
+                    owner: "demo".to_string(),
+                    repo: "pkg".to_string(),
+                    description: None,
+                    git_ref: Some("main".to_string())
+                },
+                Source::Git {
+                    url: "git+https://example.invalid/thing.git?rev=abc123".to_string()
+                }
+            ]
+        );
+        fs::remove_file(path).unwrap();
+    }
+
+    #[test]
+    fn reads_legacy_json_array() {
+        let legacy = r#"[{"type": "git", "url": "git+https://example.invalid/repo?ref=main"}]"#;
+        let path = write_temp("legacy", legacy);
+        let sources = Source::read_sources_file(&path).unwrap();
+        assert_eq!(
+            sources,
+            vec![Source::Git {
+                url: "git+https://example.invalid/repo?ref=main".to_string()
+            }]
+        );
+        fs::remove_file(path).unwrap();
+    }
 }

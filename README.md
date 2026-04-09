@@ -91,7 +91,13 @@ You may need to manually edit `frontend/src/Search.elm` to use the right index.
 
 ## Adding flakes
 
-To add your own flakes to the search index edit [./flakes/manual.toml](./flakes/manual.toml), keeping the alphabetical ordering.
+To add your own flakes to the search index edit [./flakes/flake-registry.json](./flakes/flake-registry.json) (standard flake registry format). Use the Nix unified CLI to keep entries normalized:
+
+```
+nix registry add --registry ./flakes/flake-registry.json <id> <flake ref>
+```
+
+Legacy [./flakes/manual.toml](./flakes/manual.toml) is kept for compatibility and can be converted with `nix build .#flake-registry`, which replays every entry through `nix registry add`.
 
 Possible types are `github`, `gitlab`, `sourcehut`, and `git` (which is the fallback for any kind of git repository but requires to set a revision key manually as of now).
 

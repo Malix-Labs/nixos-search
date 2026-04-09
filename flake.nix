@@ -113,6 +113,7 @@
             inherit nixosChannels version;
           };
           nixosChannels = nixosChannelsFile;
+          flake-registry = import ./flakes/registry.nix { inherit pkgs; };
         };
 
         formatter = treefmt;

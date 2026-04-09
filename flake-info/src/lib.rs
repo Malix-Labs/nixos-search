@@ -1,7 +1,7 @@
 #![recursion_limit = "256"]
 
 use anyhow::Result;
-use data::{Export, Flake, Source, import::Kind};
+use data::{import::Kind, Export, Flake, Source};
 use lazy_static::lazy_static;
 use std::path::{Path, PathBuf};
 

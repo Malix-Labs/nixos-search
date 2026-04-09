@@ -1,3 +1,4 @@
+# Deprecated: migrate entries to flakes/flake-registry.json (Nix registry format). This file is kept for compatibility.
 # Please keep all sources ordered alphabetically first by type and then by lower-cased 'owner' field (if any)
 
 [[sources]]
