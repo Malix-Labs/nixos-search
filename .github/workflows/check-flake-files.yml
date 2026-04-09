@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - "flakes/**.toml"
+      - "flakes/**.json"
 
 jobs:
   automatic-custom-flakes-check:
@@ -30,11 +31,12 @@ jobs:
 
           had_error=0
 
-          for flake_group in flakes/**/*.toml
+          for flake_group in flakes/**/*.toml flakes/**/*.json
           do
-            echo "::group::Group \"$(basename $flake_group .toml)\""
+            ext="${flake_group##*.}"
+            echo "::group::Group \"$(basename $flake_group .$ext)\""
 
-            nix run --accept-flake-config .#flake-info -- --json group "$flake_group" "$(basename "$flake_group" .toml)" --report --with-gc
+            nix run --accept-flake-config .#flake-info -- --json group "$flake_group" "$(basename "$flake_group" .$ext)" --report --with-gc
 
             if [[ -f "./report.txt" ]]
             then

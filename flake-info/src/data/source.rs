@@ -34,6 +34,8 @@ pub enum Source {
     },
     Git {
         url: String,
+        #[serde(rename = "ref", default)]
+        git_ref: Option<String>,
     },
     Nixpkgs(Nixpkgs),
 }
@@ -41,6 +43,17 @@ pub enum Source {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 struct TomlDocument {
     sources: Vec<Source>,
+}
+
+#[derive(Debug, Clone, PartialEq, Deserialize)]
+struct RegistryEntry {
+    to: Source,
+}
+
+#[derive(Debug, Clone, PartialEq, Deserialize)]
+struct RegistryDocument {
+    version: u32,
+    flakes: Vec<RegistryEntry>,
 }
 
 impl Source {
@@ -83,7 +96,21 @@ impl Source {
                     .as_ref()
                     .map_or("".to_string(), |f| format!("?ref={}", f))
             ),
-            Source::Git { url } => url.to_string(),
+            Source::Git { url, git_ref } => {
+                // Registry JSON stores URLs without the git+ scheme prefix.
+                // Ensure the URL has the git+ prefix required by nix.
+                let base = if url.starts_with("git+") {
+                    url.to_string()
+                } else {
+                    format!("git+{}", url)
+                };
+                // Append ?ref=... if a ref was specified separately and the URL
+                // does not already carry one.
+                match git_ref {
+                    Some(r) if !base.contains("?ref=") => format!("{}?ref={}", base, r),
+                    _ => base,
+                }
+            }
             Source::Nixpkgs(Nixpkgs { git_ref, .. }) => format!(
                 "https://api.github.com/repos/NixOS/nixpkgs/tarball/{}",
                 git_ref
@@ -101,7 +128,16 @@ impl Source {
             let document: TomlDocument = toml::from_str(&buf)?;
             Ok(document.sources)
         } else {
-            Ok(serde_json::from_str(&buf)?)
+            // Detect whether this is a standardized flake registry
+            // ({"version": 2, "flakes": [{"from": ..., "to": ...}, ...]})
+            // or a legacy flat array of sources.
+            let value: serde_json::Value = serde_json::from_str(&buf)?;
+            if value.get("version").is_some() && value.get("flakes").is_some() {
+                let doc: RegistryDocument = serde_json::from_value(value)?;
+                Ok(doc.flakes.into_iter().map(|e| e.to).collect())
+            } else {
+                Ok(serde_json::from_str(&buf)?)
+            }
         }
     }
 
