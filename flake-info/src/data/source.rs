@@ -77,7 +77,14 @@ impl RegistryFlakeRef {
                 repo: self.repo?,
                 git_ref: self.git_ref,
             }),
-            "git" => Some(Source::Git { url: self.url? }),
+            "git" => {
+                let url = self.url?;
+                let full_url = match self.git_ref {
+                    Some(r) => format!("git+{}?ref={}", url, r),
+                    None => format!("git+{}", url),
+                };
+                Some(Source::Git { url: full_url })
+            }
             _ => None,
         }
     }
