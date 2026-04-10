@@ -140,8 +140,10 @@ impl Source {
 
     pub fn read_sources_file(path: &Path) -> io::Result<Vec<Source>> {
         let mut file = File::open(path)?;
+
         let mut buf = String::new();
         file.read_to_string(&mut buf)?;
+
         let registry: Registry = serde_json::from_str(&buf)?;
         Ok(registry
             .flakes
