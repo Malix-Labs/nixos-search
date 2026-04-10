@@ -1,0 +1,1094 @@
+{
+  "flakes": [
+    {
+      "from": {
+        "id": "alch_emi-embers-nix-packages",
+        "type": "indirect"
+      },
+      "to": {
+        "ref": "main",
+        "type": "git",
+        "url": "https://codeberg.org/alch_emi/embers-nix-packages.git"
+      }
+    },
+    {
+      "from": {
+        "id": "wolfangaukang-python-trovo",
+        "type": "indirect"
+      },
+      "to": {
+        "ref": "main",
+        "type": "git",
+        "url": "https://codeberg.org/wolfangaukang/python-trovo"
+      }
+    },
+    {
+      "from": {
+        "id": "hannesgith-rquickshare",
+        "type": "indirect"
+      },
+      "to": {
+        "ref": "flake",
+        "type": "git",
+        "url": "https://github.com/hannesgith/rquickshare"
+      }
+    },
+    {
+      "from": {
+        "id": "raboof-dmake",
+        "type": "indirect"
+      },
+      "to": {
+        "ref": "nix",
+        "type": "git",
+        "url": "https://github.com/raboof/dmake"
+      }
+    },
+    {
+      "from": {
+        "id": "raboof-octopin",
+        "type": "indirect"
+      },
+      "to": {
+        "ref": "nix",
+        "type": "git",
+        "url": "https://github.com/raboof/octopin"
+      }
+    },
+    {
+      "from": {
+        "id": "TamtamHero-fw-fanctrl",
+        "type": "indirect"
+      },
+      "to": {
+        "ref": "packaging/nix",
+        "type": "git",
+        "url": "https://github.com/TamtamHero/fw-fanctrl"
+      }
+    },
+    {
+      "from": {
+        "id": "xddxdd-nix-cachyos-kernel",
+        "type": "indirect"
+      },
+      "to": {
+        "ref": "release",
+        "type": "git",
+        "url": "https://github.com/xddxdd/nix-cachyos-kernel"
+      }
+    },
+    {
+      "from": {
+        "id": "abathur-resholve",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "abathur",
+        "repo": "resholve",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "anpandey-numen-nix",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "anpandey",
+        "repo": "numen-nix",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "astro-deadnix",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "astro",
+        "repo": "deadnix",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "atuinsh-atuin",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "atuinsh",
+        "repo": "atuin",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "bobvanderlinden-nixpkgs-ruby",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "bobvanderlinden",
+        "repo": "nixpkgs-ruby",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "bohdantkachenko-chromium-pwa-wmclass-sync",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "bohdantkachenko",
+        "repo": "chromium-pwa-wmclass-sync",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "brizzbuzz-opnix",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "brizzbuzz",
+        "repo": "opnix",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "CertainLach-fleet",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "CertainLach",
+        "repo": "fleet",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "chaotic-cx-nyx",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "chaotic-cx",
+        "repo": "nyx",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "dgollings-nix-atlas",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "dgollings",
+        "repo": "nix-atlas",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "divnix-nosys",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "divnix",
+        "repo": "nosys",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "divnix-std",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "divnix",
+        "repo": "std",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "edolstra-flake-compat",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "eza-community-eza",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "eza-community",
+        "repo": "eza",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "fort-nix-nix-bitcoin",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "fort-nix",
+        "repo": "nix-bitcoin",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "gmodena-nix-flatpak",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "gmodena",
+        "repo": "nix-flatpak",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "gytis-ivaskevicius-flake-utils-plus",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "gytis-ivaskevicius",
+        "repo": "flake-utils-plus",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "helix-editor-helix",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "helix-editor",
+        "repo": "helix",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "hercules-ci-flake-parts",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "hyprwm-hyprland",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "hyprwm",
+        "repo": "hyprland",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "Hythera-nix-waterfox",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "Hythera",
+        "repo": "nix-waterfox",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "Infinidoge-nix-minecraft",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "Infinidoge",
+        "repo": "nix-minecraft",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "in-a-dil-emma-declarative-flatpak",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "in-a-dil-emma",
+        "repo": "declarative-flatpak",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "jj-vcs-jj",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "jj-vcs",
+        "repo": "jj",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "jonahbron-micropython-builder",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "jonahbron",
+        "repo": "micropython-builder",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "juliosueiras-nix-nix-security",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "juliosueiras-nix",
+        "repo": "nix-security",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "kashw2-bitbucket-runner-nix",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "kashw2",
+        "repo": "bitbucket-runner-nix",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "linyinfeng-angrr",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "linyinfeng",
+        "repo": "angrr",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "lnbits-lnbits-legend",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "lnbits",
+        "repo": "lnbits-legend",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "matthewcroughan-filestash-nix",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "matthewcroughan",
+        "repo": "filestash-nix",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "Mic92-sops-nix",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "mirrexagon-nixpkgs-esp-dev",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "mirrexagon",
+        "repo": "nixpkgs-esp-dev",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "ngi-nix-lightmeter",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "ngi-nix",
+        "repo": "lightmeter",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "ngi-nix-offen",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "ngi-nix",
+        "repo": "offen",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "ngi-nix-openpgp-ca",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "ngi-nix",
+        "repo": "openpgp-ca",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "ngi-nix-weblate",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "ngi-nix",
+        "repo": "weblate",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "nix-community-autofirma-nix",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "nix-community",
+        "repo": "autofirma-nix",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "nix-community-home-manager",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "nix-community-nixvim",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "nix-community",
+        "repo": "nixvim",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "nix-community-nix-vscode-extensions",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "nix-community",
+        "repo": "nix-vscode-extensions",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "nix-systems-aarch64-darwin",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "nix-systems",
+        "repo": "aarch64-darwin",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "nix-systems-aarch64-linux",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "nix-systems",
+        "repo": "aarch64-linux",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "nix-systems-current-system",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "nix-systems",
+        "repo": "current-system",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "nix-systems-default",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "nix-systems-default-darwin",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "nix-systems",
+        "repo": "default-darwin",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "nix-systems-default-linux",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "nix-systems",
+        "repo": "default-linux",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "nix-systems-flake-outputs",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "nix-systems",
+        "repo": "flake-outputs",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "nix-systems-riscv64-linux",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "nix-systems",
+        "repo": "riscv64-linux",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "nix-systems-x86_64-darwin",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "nix-systems",
+        "repo": "x86_64-darwin",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "nix-systems-x86_64-linux",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "nix-systems",
+        "repo": "x86_64-linux",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "NixOS-hydra",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "NixOS",
+        "repo": "hydra",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "numtide-flake-utils",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "PaddiM8-kalker",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "PaddiM8",
+        "repo": "kalker",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "PrismLauncher-PrismLauncher",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "PrismLauncher",
+        "repo": "PrismLauncher",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "pyproject-nix-uv2nix",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "pyproject-nix",
+        "repo": "uv2nix",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "ryantm-agenix",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "ryantm",
+        "repo": "agenix",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "snowfallorg-drift",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "snowfallorg",
+        "repo": "drift",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "snowfallorg-frost",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "snowfallorg",
+        "repo": "frost",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "snowfallorg-icehouse",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "snowfallorg",
+        "repo": "icehouse",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "snowfallorg-icicle",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "snowfallorg",
+        "repo": "icicle",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "snowfallorg-lib",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "snowfallorg",
+        "repo": "lib",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "snowfallorg-nix-data",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "snowfallorg",
+        "repo": "nix-data",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "snowfallorg-nix-editor",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "snowfallorg",
+        "repo": "nix-editor",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "snowfallorg-nix-software-center",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "snowfallorg",
+        "repo": "nix-software-center",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "snowfallorg-nixos-conf-editor",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "snowfallorg",
+        "repo": "nixos-conf-editor",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "snowfallorg-snow",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "snowfallorg",
+        "repo": "snow",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "snowfallorg-templates",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "snowfallorg",
+        "repo": "templates",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "snowfallorg-thaw",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "snowfallorg",
+        "repo": "thaw",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "snowfallorg-whats-in-my-store",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "snowfallorg",
+        "repo": "whats-in-my-store",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "stackbuilders-nixpkgs-terraform",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "stackbuilders",
+        "repo": "nixpkgs-terraform",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "StardustXR-telescope",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "StardustXR",
+        "repo": "telescope",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "surrealdb-surrealdb",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "surrealdb",
+        "repo": "surrealdb",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "Svenum-Solaar-Flake",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "Svenum",
+        "repo": "Solaar-Flake",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "synalice-kconfq",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "synalice",
+        "repo": "kconfq",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "TraceMachina-nativelink",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "TraceMachina",
+        "repo": "nativelink",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "utensils-mcp-nixos",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "utensils",
+        "repo": "mcp-nixos",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "viperML-wrapper-manager",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "viperML",
+        "repo": "wrapper-manager",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "vorburger-bazel-nix",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "vorburger",
+        "repo": "bazel-nix",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "Wazzaps-fingerpaint",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "Wazzaps",
+        "repo": "fingerpaint",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "YaLTeR-niri",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "YaLTeR",
+        "repo": "niri",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "yusdacra-nix-cargo-integration",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "yusdacra",
+        "repo": "nix-cargo-integration",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "yusdacra-rust-nix-templater",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "yusdacra",
+        "repo": "rust-nix-templater",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "zed-industries-zed",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "zed-industries",
+        "repo": "zed",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "pi-lar-neuropil",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "pi-lar",
+        "repo": "neuropil",
+        "type": "gitlab"
+      }
+    },
+    {
+      "from": {
+        "id": "simple-nixos-mailserver-nixos-mailserver",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "simple-nixos-mailserver",
+        "repo": "nixos-mailserver",
+        "type": "gitlab"
+      }
+    },
+    {
+      "from": {
+        "id": "kerstin-sway-timetracker",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "~kerstin",
+        "repo": "sway-timetracker",
+        "type": "sourcehut"
+      }
+    },
+    {
+      "from": {
+        "id": "munksgaard-geomyidae-flake",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "~munksgaard",
+        "repo": "geomyidae-flake",
+        "type": "sourcehut"
+      }
+    },
+    {
+      "from": {
+        "id": "x4JX-L5P-Keyboard-RGB",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "4JX",
+        "repo": "L5P-Keyboard-RGB",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "hellwolf-solc-nix",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "hellwolf",
+        "repo": "solc.nix",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "input-output-hk-haskell-nix",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "input-output-hk",
+        "repo": "haskell.nix",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "pyproject-nix-pyproject-nix",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "pyproject-nix",
+        "repo": "pyproject.nix",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "alexdavid-jail-nix",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "~alexdavid",
+        "repo": "jail.nix",
+        "type": "sourcehut"
+      }
+    }
+  ],
+  "version": 2
+}
