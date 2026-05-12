@@ -306,15 +306,6 @@ viewResultItem nixosChannels channel show activeSource item =
         asPreCode value =
             div [] [ pre [] [ code [ class "code-block" ] [ text value ] ] ]
 
-        asHighlightPreCode value =
-            div []
-                [ useTheme oneDark
-                , elm value
-                    |> Result.map (toBlockHtml (Just 1))
-                    |> Result.withDefault
-                        (pre [] [ code [ class "code-block" ] [ text value ] ])
-                ]
-
         isService =
             item.source.docType == "service"
 
@@ -454,6 +445,17 @@ viewResultItem nixosChannels channel show activeSource item =
             ]
 
 
+asHighlightPreCode : String -> Html msg
+asHighlightPreCode value =
+    div []
+        [ useTheme oneDark
+        , elm value
+            |> Result.map (toBlockHtml (Just 1))
+            |> Result.withDefault
+                (pre [] [ code [ class "code-block" ] [ text value ] ])
+        ]
+
+
 {-| Render a "Usage" section showing how to use this option in the appropriate
 context, including `_class` to clarify which module system it belongs to.
 -}
@@ -496,23 +498,17 @@ viewUsageSnippet source =
             case ( source.servicePackage, source.serviceModule ) of
                 ( Just pkg, Just mod_ ) ->
                     [ div [] [ text "Usage" ]
-                    , div []
-                        [ pre []
-                            [ code [ class "code-block" ]
-                                [ text
-                                    ("system.services.<name> = {\n"
-                                        ++ "  _class = \"service\";\n"
-                                        ++ "  imports = [ pkgs."
-                                        ++ pkg
-                                        ++ ".services."
-                                        ++ mod_
-                                        ++ " ];\n"
-                                        ++ nestedOption "  "
-                                        ++ "};"
-                                    )
-                                ]
-                            ]
-                        ]
+                    , asHighlightPreCode
+                        ("system.services.<name> = {\n"
+                            ++ "  _class = \"service\";\n"
+                            ++ "  imports = [ pkgs."
+                            ++ pkg
+                            ++ ".services."
+                            ++ mod_
+                            ++ " ];\n"
+                            ++ nestedOption "  "
+                            ++ "};"
+                        )
                     ]
 
                 _ ->
@@ -520,36 +516,24 @@ viewUsageSnippet source =
 
         "option" ->
             [ div [] [ text "Usage" ]
-            , div []
-                [ pre []
-                    [ code [ class "code-block" ]
-                        [ text
-                            ("# configuration.nix\n"
-                                ++ "{\n"
-                                ++ "  _class = \"nixos\";\n"
-                                ++ nestedOption "  "
-                                ++ "}"
-                            )
-                        ]
-                    ]
-                ]
+            , asHighlightPreCode
+                ("# configuration.nix\n"
+                    ++ "{\n"
+                    ++ "  _class = \"nixos\";\n"
+                    ++ nestedOption "  "
+                    ++ "}"
+                )
             ]
 
         "home-manager-option" ->
             [ div [] [ text "Usage" ]
-            , div []
-                [ pre []
-                    [ code [ class "code-block" ]
-                        [ text
-                            ("# home.nix\n"
-                                ++ "{\n"
-                                ++ "  _class = \"homeManager\";\n"
-                                ++ nestedOption "  "
-                                ++ "}"
-                            )
-                        ]
-                    ]
-                ]
+            , asHighlightPreCode
+                ("# home.nix\n"
+                    ++ "{\n"
+                    ++ "  _class = \"homeManager\";\n"
+                    ++ nestedOption "  "
+                    ++ "}"
+                )
             ]
 
         _ ->
