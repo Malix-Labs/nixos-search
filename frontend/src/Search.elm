@@ -53,6 +53,7 @@ import Html
         , h2
         , h4
         , input
+        , label
         , li
         , option
         , p
@@ -67,6 +68,7 @@ import Html.Attributes
         ( attribute
         , autocomplete
         , autofocus
+        , checked
         , class
         , classList
         , disabled
@@ -1277,19 +1279,21 @@ viewChannels nixosChannels outMsg selectedChannel =
         [ div []
             [ h2 [] [ text "Channel: " ]
             , div
-                [ class "btn-group"
-                , attribute "data-toggle" "buttons-radio"
+                [ class "channel-radios"
                 ]
                 (List.map
                     (\channel ->
-                        viewButton
-                            [ type_ "button"
-                            , classList
-                                [ ( "active", channel.id == selectedChannel )
+                        label
+                            [ class "channel-radio" ]
+                            [ input
+                                [ type_ "radio"
+                                , name "channel"
+                                , checked (channel.id == selectedChannel)
+                                , onClick <| outMsg (ChannelChange channel.id)
                                 ]
-                            , onClick <| outMsg (ChannelChange channel.id)
+                                []
+                            , text <| " " ++ channel.id
                             ]
-                            (List.intersperse (text " ") (text channel.id :: channelBadge channel.status))
                     )
                     nixosChannels
                 )
