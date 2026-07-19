@@ -1,0 +1,17 @@
+[
+	{
+		"label": "Launch Chrome (frontend)",
+		"adapter": "JavaScript",
+		"type": "chrome",
+		"request": "launch",
+		"url": "http://localhost:3000",
+		"webRoot": "$ZED_WORKTREE_ROOT/frontend",
+		/* doesn't work for interactive commands, see https://github.com/zed-industries/zed/issues/55706#issuecomment-5007931110 ; workaround: launch a concurent "dev" task manually
+			"build": {
+				"command": "npm",
+				"args": ["run", "dev"],
+				"cwd": "$ZED_WORKTREE_ROOT/frontend",
+			},
+		*/
+	},
+]
