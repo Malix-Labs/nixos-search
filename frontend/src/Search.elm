@@ -34,6 +34,7 @@ module Search exposing
     , viewFlakes
     , viewResult
     , viewSearchInput
+    , viewSortSelection
     )
 
 import Array

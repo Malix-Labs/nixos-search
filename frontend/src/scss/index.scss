@@ -338,6 +338,19 @@ footer {
 
 // Search seatch
 .search-page {
+  display: grid;
+  grid-template-columns: [sidebar] max-content [content] 1fr;
+  column-gap: 1em;
+  row-gap: 1.5em;
+
+  // Every direct child that is not a grid participant spans both columns
+  & > h1,
+  & > .search-input,
+  & > .loader-wrapper,
+  & > .search-no-results,
+  & > p.alert {
+    grid-column: 1 / -1;
+  }
 
   &.not-asked {
 
@@ -368,8 +381,10 @@ footer {
 
   // Search input section
   & > .search-input {
+    display: contents;
 
     .search-input-top {
+      grid-column: 1 / -1;
       margin-bottom: 1em;
       display: flex;
       gap: 1ch;
@@ -399,15 +414,14 @@ footer {
     }
 
     .search-input-options {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5em;
+      display: contents;
 
       fieldset.channel-radios {
         @include radio-segmented-group;
         display: inline-flex;
         align-items: center;
+        grid-column: sidebar;
+        grid-row: 3;
 
         legend.channel-title {
           float: left;
@@ -416,6 +430,52 @@ footer {
           line-height: 28px;
           border: 0;
         }
+      }
+    }
+  }
+
+  // Positioning when channel radios ARE present (Packages / Options)
+  &:has(.channel-radios) {
+    sort-select-wrapper {
+      grid-column: content;
+      grid-row: 3;
+    }
+
+    & > .search-results {
+      & > aside {
+        grid-column: sidebar;
+        grid-row: 4;
+      }
+      & > div {
+        grid-column: content;
+        grid-row: 4;
+      }
+    }
+  }
+
+  // Positioning when channel radios are ABSENT (3rd-party Flakes)
+  &:not(:has(.channel-radios)) {
+    grid-template-rows: auto auto max-content 1fr;
+    row-gap: 0.8em;
+
+    sort-select-wrapper {
+      grid-column: sidebar;
+      grid-row: 3;
+      align-self: start;
+      margin: 0;
+    }
+
+    & > .search-results {
+      & > aside {
+        grid-column: sidebar;
+        grid-row: 4;
+        align-self: start;
+        margin: 0;
+      }
+
+      & > div {
+        grid-column: content;
+        grid-row: 3 / span 2;
       }
     }
   }
@@ -470,7 +530,13 @@ footer {
 
   // Buckets
   .search-sidebar {
-    margin: 0 1em 0 0;
+    margin: 0;
+
+    & > sort-select-wrapper {
+      display: block;
+      margin-bottom: 1em;
+      float: none;
+    }
 
     fieldset.search-bucket {
       border: 1px solid var(--search-sidebar-container-border-color);
@@ -546,12 +612,15 @@ footer {
 
 
   & > .search-results {
-    display: flex;
-    flex-direction: row;
+    display: contents;
+
+    & > aside {
+      grid-column: sidebar;
+    }
 
     // Results section
     & > div {
-      width: 100%;
+      grid-column: content;
 
       // Search results header
       & > :nth-child(1) {
@@ -1047,9 +1116,16 @@ a:focus-visible {
 
 @media (max-width: 760px) {
   .search-page {
+    grid-template-columns: 1fr;
+
     & .search-results {
-      flex-direction: column;
+      grid-template-columns: 1fr;
     }
+
+    & .search-input {
+      grid-template-columns: 1fr;
+    }
+
     & .search-sidebar {
       width: 100%;
     }
