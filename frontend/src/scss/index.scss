@@ -339,7 +339,7 @@ footer {
 // Search seatch
 .search-page {
   display: grid;
-  grid-template-columns: [sidebar] max-content [content] 1fr;
+  grid-template-columns: [sidebar] minmax(200px, 30%) [content] 1fr;
   column-gap: 1em;
   row-gap: 1.5em;
 
@@ -418,8 +418,10 @@ footer {
 
       fieldset.channel-radios {
         @include radio-segmented-group;
-        display: inline-flex;
+        display: flex;
         align-items: center;
+        width: 100%;
+        box-sizing: border-box;
         grid-column: sidebar;
         grid-row: 3;
 
@@ -429,6 +431,12 @@ footer {
           font-size: 1.2em;
           line-height: 28px;
           border: 0;
+          white-space: nowrap;
+        }
+
+        label {
+          flex: 1;
+          text-align: center;
         }
       }
     }
@@ -462,6 +470,8 @@ footer {
       grid-column: sidebar;
       grid-row: 3;
       align-self: start;
+      width: 100%;
+      box-sizing: border-box;
       margin: 0;
     }
 
@@ -531,6 +541,7 @@ footer {
   // Buckets
   .search-sidebar {
     margin: 0;
+    min-width: 0;
 
     & > sort-select-wrapper {
       display: block;
@@ -555,11 +566,15 @@ footer {
         border: 0;
         color: inherit;
         line-height: inherit;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        max-width: 100%;
       }
 
       label {
         display: grid;
-        grid-template-columns: auto max-content;
+        grid-template-columns: minmax(0, 1fr) max-content;
         color: var(--search-sidebar-link-color);
         padding: 0.5em 0.5em 0.5em 1em;
         border-radius: 4px;
@@ -581,6 +596,7 @@ footer {
         & > span:first-child {
           text-overflow: ellipsis;
           overflow: hidden;
+          white-space: nowrap;
         }
 
         & > span:last-child {
